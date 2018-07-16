@@ -1,0 +1,56 @@
+{
+  "name": "studentMangers",
+  "version": "1.0.0",
+  "description": "系统管理",
+  "main": "app.js",
+  "dependencies": {
+    "_accepts@1.3.5@accepts": "^1.3.5",
+    "_content-disposition@0.5.2@content-disposition": "^0.5.2",
+    "_debug@2.6.9@debug": "^2.6.9",
+    "_depd@1.1.1@depd": "^1.1.1",
+    "_depd@1.1.2@depd": "^1.1.2",
+    "_encodeurl@1.0.2@encodeurl": "^1.0.2",
+    "_etag@1.8.1@etag": "^1.8.1",
+    "_express@4.16.3@express": "^4.16.3",
+    "_finalhandler@1.1.1@finalhandler": "^1.1.1",
+    "_fresh@0.5.2@fresh": "^0.5.2",
+    "_http-errors@1.6.2@http-errors": "^1.6.2",
+    "_inherits@2.0.3@inherits": "^2.0.3",
+    "_ipaddr.js@1.6.0@ipaddr.js": "^1.6.0",
+    "_mime-db@1.33.0@mime-db": "^1.33.0",
+    "_mime-types@2.1.18@mime-types": "^2.1.18",
+    "_ms@2.0.0@ms": "^2.0.0",
+    "_on-finished@2.3.0@on-finished": "^2.3.0",
+    "_opentype.js@0.7.3@opentype.js": "^0.7.3",
+    "_parseurl@1.3.2@parseurl": "^1.3.2",
+    "_path-to-regexp@0.1.7@path-to-regexp": "^0.1.7",
+    "_proxy-addr@2.0.3@proxy-addr": "^2.0.3",
+    "_range-parser@1.2.0@range-parser": "^1.2.0",
+    "_serve-static@1.13.2@serve-static": "^1.13.2",
+    "_setprototypeof@1.0.3@setprototypeof": "^1.0.3",
+    "_statuses@1.4.0@statuses": "^1.4.0",
+    "_svg-captcha@1.3.11@svg-captcha": "^1.3.11",
+    "_tiny-inflate@1.0.2@tiny-inflate": "^1.0.2",
+    "_unpipe@1.0.0@unpipe": "^1.0.0",
+    "express": "^4.16.3",
+    "mime": "^2.3.1",
+    "opentype.js": "^0.7.3",
+    "svg-captcha": "^1.3.11",
+    "tiny-inflate": "^1.0.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/huangruihan/studentMangers.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/huangruihan/studentMangers/issues"
+  },
+  "homepage": "https://github.com/huangruihan/studentMangers#readme"
+}

@@ -1,0 +1,121 @@
+//导入模块
+let express = require('express');
+let path = require('path');
+let  svgCaptcha = require('svg-captcha');
+let session = require("express-session");
+// 导入body-parser 格式化表单的数据
+let bodyParser = require('body-parser');
+//创建app
+let app = express();
+
+//托管静态资源
+app.use(express.static('static'));
+// 使用 session中间件
+// 每个路由的 req对象中 增加 session这个属性
+// 每个路由中 多了一个 可以访问到的 session 属性 可以再他身上 保存 需要共享的属性
+app.use(session({
+    secret: 'keyboard'
+}))
+
+// 使用 bodyParser 中间件
+app.use(bodyParser.urlencoded({
+    extended: false
+}))
+
+
+//路由1
+// 使用get方法 访问登陆页面时 直接读取登录页面 并返回
+app.get('/login',(req,res)=>{
+     // 打印session
+    // console.log(req.session);
+    // req.session.info = '你来登录页啦';
+    // 直接读取文件并返回
+    res.sendFile(path.join(__dirname,'static/views/login.html'));
+});
+
+//路由2
+// 使用post 提交数据过来 验证用户登陆
+app.post('/login',(req,res)=>{
+    // 获取form表单提交的数据
+    // 接收数据
+    // 比较数据
+    let userName = req.body.userName;
+    let userPass = req.body.userPass;
+    // 验证码
+    let code = req.body.code;
+    console.log(code)
+    // 跟 session中的验证码进行比较
+    if(code == req.session.captcha){
+        // console.log('验证码正确');
+        // 设置session
+        req.session.userInfo={
+            userName,
+            userPass
+        }
+        //去首页
+        res.redirect('index');
+    }else{
+         // console.log('失败');
+        // 打回去
+        // res.redirect('/login');
+        res.setHeader('content-type', 'text/html');
+        res.send('<script>alert("验证码失败");window.location.href="/login"</script>');
+    }
+    // res.send('login');
+})
+
+
+//路由3
+//生成图片的功能
+// 把这个地址 设置给 登录页的 图片的 src属性
+app.get('/login/captchaImg.png', (req, res) => {
+    // 生成了一张图片 并返回
+    var captcha = svgCaptcha.create();
+    // 打印验证码
+    console.log(captcha.text);
+    // 获取session中的值
+    // console.log(req.session.info);
+    // 保存 验证码的值 到 session 方便后续的使用
+    // 为了比较时简单 直接转为小写
+    req.session.captcha = captcha.text.toLocaleLowerCase();
+    res.type('svg');
+    res.status(200).send(captcha.data);
+})
+
+//路由4
+//访问首页 index
+app.get('/index', (req, res) => {
+    // 有session 欢迎
+    if (req.session.userInfo) {
+        // 登陆了
+        res.sendFile(path.join(__dirname, 'static/views/index.html'));
+    } else {
+        // 没有session 去登录页
+        res.setHeader('content-type', 'text/html');
+        res.send("<script>alert('请登录');window.location.href='/login'</script>");
+    }
+})
+
+//路由5
+//退出操作
+//删除session的值
+app.use('/logout',(req,res)=>{
+    //删除session中的userInfo 
+    delete req.session.userInfo;
+    //去登录页
+    res.redirect('login');
+})
+
+//路由6
+//显示注册页面
+app.get('/register',(req,res)=>{
+    //直接读取并返回注册页
+    res.sendFile(path.join(__dirname,'static/views/register.html'));
+})
+
+
+//开始监听
+app.listen(2188,'127.0.0.1',()=>{
+    console.log('success');
+    
+})
