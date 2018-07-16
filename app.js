@@ -5,6 +5,14 @@ let  svgCaptcha = require('svg-captcha');
 let session = require("express-session");
 // 导入body-parser 格式化表单的数据
 let bodyParser = require('body-parser');
+//导入mongoDB
+const MongoClient = require('mongodb').MongoClient;
+// mongoDB 需要使用到的 配置
+// Connection URL
+const url = 'mongodb://localhost:27017';
+// Database Name
+const dbName = 'test';
+
 //创建app
 let app = express();
 
@@ -113,6 +121,46 @@ app.get('/register',(req,res)=>{
     res.sendFile(path.join(__dirname,'static/views/register.html'));
 })
 
+//路由7
+app.post('/register',(req,res)=>{
+    //获取用户数据
+    let userName = req.body.userName;
+    let userPass = req.body.userPass;
+    console.log(userName);
+    console.log(userPass);
+
+    // Use connect method to connect to the server
+    MongoClient.connect(url, (err, client)=> {
+    // 连上mongo之后 选择使用的库
+    const db = client.db(dbName);
+    // 选择使用的集合
+    let collection = db.collection('userList');
+   
+    //查询数据
+    collection.find({
+        userName
+    }).toArray((err, doc)=>{
+        console.log(doc);
+        if(doc.length==0){
+            //没有人
+            //新增数据
+            collection.insert({
+                userName,
+                userPass
+            },(err,result)=>{
+                console.log(err);
+                //注册成功
+                res.setHeader('content-type','text/html');
+                res.send("<script>alert('欢迎入坑');window.location='/login'</script>");
+                //关闭数据库连接
+                client.close();
+                
+            })
+        }
+        // callback(docs);
+      });
+  });
+})
 
 //开始监听
 app.listen(2188,'127.0.0.1',()=>{
